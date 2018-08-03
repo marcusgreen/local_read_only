@@ -21,7 +21,7 @@ class local_read_only_cap_form extends moodleform {
         $mform = $this->_form;
         $maxbytes = 2000;
         $mform->addElement('filepicker', 'jsonfile', get_string('file'), null,
-            array('maxbytes' => $maxbytes, 'accepted_types' => '*'));
+            array('maxbytes' => $maxbytes, 'accepted_types' => 'json'));
         $mform->addRule('jsonfile', null, 'required');
         $this->add_action_buttons();
     }
