@@ -14,6 +14,8 @@
                 <FIELD NAME="capability" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"
                        COMMENT="from mdl_role_capabilities.capability"/>
                 <FIELD NAME="roleid" TYPE="int" LENGTH="10" NOTNULL="false" DEFAULT="1" SEQUENCE="false"/>
+                <FIELD NAME="contextid" TYPE="int" LENGTH="10" NOTNULL="false" DEFAULT="1" SEQUENCE="false"/>
+
             </FIELDS>
             <KEYS>
                 <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
