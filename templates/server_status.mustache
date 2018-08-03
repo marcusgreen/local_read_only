@@ -1,0 +1,19 @@
+<table class="flexible generaltable">
+    <tr><th>Action</th><th>Status</th><th>Instructions</th></tr>
+    <tr><td>Is 'lib/dml' writable:</td><td>{{writable}}</td><td>Contact System Administrator to make lib/dml writable</td> </tr>
+    <tr><td>Does <code>lib/dml/mysqliro_native_moodle_database.php</code> file exists</td><td>{{writable}}</td><td>Contact System Administrator to make <code>lib/dml</code> folder writable
+    <button class="btn">Copy file</button></td> </tr>
+    <tr><td><code>$CFG->dbtype set</code> to <code>mysqliro</code></td><td>Row:3 Cell:2</td><td>Please make sure you set the following in your config.php
+    <code>$CFG->dbtype = 'mysqliro';</code>
+        {{#dbtype_read_only}}
+            {{/dbtype_read_only}}
+        <span class="label label-success">Yes</span>
+        <span class="label label-danger">No</span>
+    </td> </tr>
+    <tr><td><code>$CFG->noemailever</code> set to <code>true</code></td><td>
+        <span class="label label-success">Yes</span>
+        <span class="label label-danger">No</span>
+    </td> <td>Please make sure you set the following in your config.php
+        <code>$CFG->noemailever = true;</code>
+    </td></tr>
+  </table>
