@@ -18,41 +18,45 @@ defined('MOODLE_INTERNAL') || die();
 /**
  * Class local_read_only_renderer
  */
-class local_read_only_renderer extends plugin_renderer_base{
-    public function render_prereq_message(){
+class local_read_only_renderer extends plugin_renderer_base {
+    public function render_prereq_message() {
         $data = array();
         return $this->render_from_template(
             'local_read_only/prerequisites_message', $data);
     }
-    public function render_alert_banner(){
-        $alert_msg_config = get_config('local_read_only','alertbanner');
-        $data = array('message'=>$alert_msg_config);
+
+    public function render_alert_banner() {
+        $alert_msg_config = get_config('local_read_only', 'alertbanner');
+        $data = array('message' => $alert_msg_config);
         return $this->render_from_template(
             'local_read_only/alert_banner', $data);
     }
-    public function render_server_status(){
-        global $CFG;
-         $server_status = array();
-        //Does file exist.
-        $server_status['class_file_exists'] = file_exists($CFG->dirroot.'/lib/dml/mysqliro_native_moodle_database.php');
-        $server_status['dbtype_read_only']  = ($CFG->config_php_settings['dbtype'] ==
-        'mysqliro'? 'yes' :'no');
 
-        $data = array('writable'=>'yes');
+    public function render_server_status() {
+        global $CFG;
+        $server_status = array();
+        //Does file exist.
+        $server_status['class_file_exists'] = file_exists($CFG->dirroot . '/lib/dml/mysqliro_native_moodle_database.php');
+        $server_status['dbtype_read_only'] = ($CFG->config_php_settings['dbtype'] ==
+        'mysqliro' ? 'yes' : 'no');
+
+        $data = array('writable' => 'yes');
         return $this->render_from_template(
             'local_read_only/server_status', $server_status);
     }
-    public function display_upload_capabilities($capabilities){
-        if(!empty($capabilities)){
-            $cap_array =  json_decode($capabilities, true);
+
+    public function display_upload_capabilities($capabilities) {
+        var_dump($capabilities);
+        if (!empty($capabilities)) {
+            $cap_array = json_decode($capabilities, true);
         }
-        $caplist = $cap_array['read_only_capabilities'] ;
+        $caplist = $cap_array['read_only_capabilities'];
         return $this->render_from_template(
-            'local_read_only/capabilities_table', ['caps'=>$caplist]);
+            'local_read_only/capabilities_table', ['caps' => $caplist]);
 
     }
 
-    public function display_config_tab($currenttab){
+    public function display_config_tab($currenttab) {
         global $OUTPUT;
         $row = array();
         if ($currenttab == '') {
