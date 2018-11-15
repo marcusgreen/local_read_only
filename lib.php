@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 defined('MOODLE_INTERNAL') || die();
-require_once($CFG->dirroot . '/local/read_only/classes/status_form.php');
+require_once($CFG->dirroot . '/local/read_only/classes/forms/local_read_only_alert_banner_form.php');
 require_once($CFG->dirroot . '/local/read_only/classes/capabilities_processor.php');
 
 //SET DBTYPE HERE to see if it persists
@@ -26,8 +26,10 @@ require_once($CFG->dirroot . '/local/read_only/classes/capabilities_processor.ph
 
 function local_read_only_before_standard_top_of_body_html() {
     global $PAGE;
+    if(get_config('local_read_only', 'enable_readonly')==1){
     $output = $PAGE->get_renderer('local_read_only');
-    return $output->render_alert_banner();
+            return $output->render_alert_banner();
+    }
 }
 function is_lib_dml_writable(){
     global $CFG;
@@ -60,7 +62,7 @@ function remove_mysqli_db_class_files(){
 function show_settings_page($section){
     global $CFG;
     if($section == 'local_read_only_status'){
-        $status_form = new status_form();
+        $status_form = new local_read_only_alert_banner();
         $status_form->display();
     }
 

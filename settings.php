@@ -24,7 +24,7 @@ $do = optional_param('do', "config", PARAM_ALPHA);
 
 
  if ($hassiteconfig) {
-    $ADMIN->add('root', new admin_category('read_only',
+    $ADMIN->add('local_read_only', new admin_category('read_only',
         get_string('pluginname', 'local_read_only')
     ));
      $section = optional_param('section', "", PARAM_RAW);

@@ -26,7 +26,7 @@ class local_read_only_renderer extends plugin_renderer_base {
     }
 
     public function render_alert_banner() {
-        $alert_msg_config = get_config('local_read_only', 'alertbanner');
+        $alert_msg_config = get_config('local_read_only', 'alert_message');
         $data = array('message' => $alert_msg_config);
         return $this->render_from_template(
             'local_read_only/alert_banner', $data);
