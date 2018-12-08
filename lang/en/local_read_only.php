@@ -19,3 +19,4 @@ $string['alert_message_label'] ='Alert message';
 $string['alert_message_desc'] ='Alert message to go on top of the banner';
 $string['enable_read_only'] ='Enable Read Only Mode';
 $string['enable_read_only_desc'] ='Enable Read Only Mode';
+$string['alert_message'] = 'Site is in read-only mode';

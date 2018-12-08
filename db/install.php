@@ -27,9 +27,5 @@
 defined('MOODLE_INTERNAL') || die;
 
 function xmldb_local_read_only_install() {
-    global $CFG;
-
-    require_once (dirname(dirname(__FILE__)) . '/lib.php');
-    copy_mysqli_db_class_files();
     return true;
 }

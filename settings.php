@@ -23,70 +23,23 @@ require_login();
 $do = optional_param('do', "config", PARAM_ALPHA);
 
 
- if ($hassiteconfig) {
-    $ADMIN->add('local_read_only', new admin_category('read_only',
+if ($hassiteconfig) {
+    $settings = new admin_settingpage(
+        'local_read_only',
         get_string('pluginname', 'local_read_only')
-    ));
-     $section = optional_param('section', "", PARAM_RAW);
-     //echo "SECTION:".$section;
-     //show_settings_page($section);
-    //Status Settings Page
-    $temp = new admin_settingpage('local_read_only_status', 'Status');
-    $table = new html_table();
-    $table->head = array('Step/Component', get_string('status'),
-        get_string('description'));
-    $table->data = array();
-    $row = array();
-    // 'lib/dml' writable
-    $row[0] = "Is 'lib/dml' writable";
-    if (!is_lib_dml_writable()) {
-        $status = html_writer::tag('span', get_string('no'), array('class' => 'statuscritical'));
+    );
+    if ($ADMIN->fulltree) {
 
-    } else {
-        $status = html_writer::tag('span', get_string('yes'), array('class' => 'statusok'));
+        $settings->add(new admin_setting_configcheckbox(
+            'local_read_only/enable_readonly',
+            get_string('enable_read_only', 'local_read_only'),
+            get_string('enable_read_only_desc', 'local_read_only'),
+            ''
+        ));
 
+    //Alert Banner Message 
+    $settings->add(new admin_setting_confightmleditor('local_read_only/alert_message',
+    'alert_message','',get_string('alert_message','local_read_only')));
     }
-    $row[1] = $status;
-    $row[2] = "We need the 'lib/dml' folder to be writable so the mysqliro db file can sit there";
-    $table->data[] = $row;
-    // 'config.php' writable
-    $row = array();
-    $row[0] = "Is 'config.php' file writable ? ";
-    if (!is_config_php_writable()) {
-        $status = html_writer::tag('span', get_string('no'), array('class' => 'statuscritical'));
-
-    } else {
-        $status = html_writer::tag('span', get_string('yes'), array('class' => 'statusok'));
-
-    }
-    $row[1] = $status;
-    $row[2] = "Desc";
-    $table->data[] = $row;
-    $temp->add(new admin_setting_configempty('local_read_only_status_table', '', html_writer::table($table)));
-
-
-
-
-
-    $ADMIN->add('read_only', $temp);
-    //Alert Banner Message Page
-    $temp = new admin_settingpage('local_read_only_alert_banner', 'Alert Banner');
-    $temp->add(new admin_setting_confightmleditor('local_read_only/alert_message','alert_message','',null));
-    $ADMIN->add('read_only', $temp);
-
-    //Capabilities
-    $temp = new admin_settingpage('local_read_only_capabilities', 'Capabilities');
-
-
-    $temp->add(new admin_setting_configcheckbox('local_read_only/enable_readonly',
-        get_string('enable_read_only', 'local_read_only'),
-        get_string('enable_read_only_desc', 'local_read_only'), ''));
-
-
-    $temp->add(new admin_setting_configcheckbox('local_read_only/enable_readonly',
-        get_string('enable_read_only', 'local_read_only'),
-        get_string('enable_read_only_desc', 'local_read_only'), ''));
-    $ADMIN->add('read_only', $temp);
-
-
+    $ADMIN->add('localplugins', $settings);
 }
