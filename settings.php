@@ -17,9 +17,6 @@ defined('MOODLE_INTERNAL') || die();
 global $PAGE, $CFG,$USER;
 require_once($CFG->dirroot . '/local/read_only/lib.php');
 
-require_login();
-
-
 $do = optional_param('do', "config", PARAM_ALPHA);
 
 
