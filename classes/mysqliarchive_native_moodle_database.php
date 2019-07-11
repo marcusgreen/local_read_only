@@ -18,13 +18,7 @@ class mysqliarchive_native_moodle_database extends mysqli_native_moodle_database
             'userbackup_logs',
             'backup_ids_temp',
             'backup_courses',
-            'files',
-            'question_categories',
-            'question_attempts',
-            'question_attempt_steps',
-            'question_attempt_step_data',
-            'question_usages',
-            'quiz_attempts'
+            'files'
         );
         return $writabletables;
     }
