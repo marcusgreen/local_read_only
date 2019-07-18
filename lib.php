@@ -22,13 +22,16 @@ defined('MOODLE_INTERNAL') || die();
  * Class local_read_only
  */
 
-function local_read_only_before_standard_top_of_body_html(){
-    global $PAGE, $CFG;
-    if ((isset($PAGE) &&  ($PAGE->pagetype==="login-index"))) {
-            if (get_config('local_read_only', 'enable_readonly') === "1") {
-                $output = $PAGE->get_renderer('local_read_only');
-                return $output->render_alert_banner();
-            } 
+function local_read_only_before_standard_top_of_body_html() {
+    global $DB;
+    if (get_config('local_read_only', 'enable_readonly') === "1") {
+        $msg = get_string('inreadonlymode', 'local_read_only');
+        if (method_exists($DB, 'get_drivername')) {
+            \core\notification::add($msg, \core\notification::WARNING);
+        } else {
+            $msg = get_string('drivernotfound', 'local_read_only');
+            \core\notification::add($msg, \core\notification::ERROR);
+        }
     }
 }
 

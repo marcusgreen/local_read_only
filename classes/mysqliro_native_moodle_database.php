@@ -35,6 +35,13 @@ class mysqliro_native_moodle_database extends mysqli_native_moodle_database
         );
         return $writabletables;
     }
+    public function get_drivername(){
+        return 'mysqliro';
+    }
+    public function set_field($table, $newfield, $newvalue, array $conditions=null) {
+        return true;
+    }
+
     public function insert_record_raw($table, $params, $returnid = true, $bulk = false, $customsequence = false) {
         $writabletables=$this->get_writable_tables();
         if(!in_array($table,$writabletables)){
