@@ -36,7 +36,7 @@ if ($hassiteconfig) {
 
     //Alert Banner Message 
     $settings->add(new admin_setting_confightmleditor('local_read_only/alert_message',
-    'alert_message','',get_string('alert_message','local_read_only')));
+    'alert_message','',get_string('default_alert','local_read_only')));
     }
     $ADMIN->add('localplugins', $settings);
 }
