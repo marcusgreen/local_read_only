@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -16,15 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * CLI cron
+ * Toggle read_only status on and off from the command line
  *
- * This script looks through all the module directories for cron.php files
- * and runs them.  These files can contain cleanup functions, email functions
- * or anything that needs to be run on a regular basis.
- *
- * @package    core
- * @subpackage cli
- * @copyright  2009 Petr Skoda (http://skodak.org)
+ * @package    local
+ * @subpackage read_only
+ * @copyright  2019 Marcus Green
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -48,4 +43,3 @@ if ($input == 'off') {
 } else{
     cli_writeln('nothing was changed');  
 }
-
