@@ -23,13 +23,15 @@ defined('MOODLE_INTERNAL') || die();
  */
 
 function local_read_only_before_standard_top_of_body_html() {
-    global $DB;
+    global $DB,$CFG;
     if (get_config('local_read_only', 'enable_readonly') === "1") {
         $msg = get_config('local_read_only', 'alert_message');
+
         if (method_exists($DB, 'get_drivername')) {
-            \core\notification::add($msg, \core\notification::WARNING);
-        } else {
-            $msg = get_string('drivernotfound', 'local_read_only');
+             \core\notification::add($msg, \core\notification::WARNING);
+        }
+        if ($CFG->dbtype !== 'mysqliro') {
+            $msg = get_string('configfileerror', 'local_read_only');
             \core\notification::add($msg, \core\notification::ERROR);
         }
     }

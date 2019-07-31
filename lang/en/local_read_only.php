@@ -21,4 +21,5 @@ $string['default_alert'] = 'Site is in read-only mode';
 $string['enable_read_only'] ='Enable Read Only Mode';
 $string['enable_read_only_desc'] ='Enable Read Only Mode';
 $string['inreadonlymode'] = 'Site is in read-only mode';
-$string['drivernotfound'] = 'Read only driver not found in lib\dml ';
+$string['drivernotfound'] = 'Cannot find lib/dml/mysqliro_native_moodle_database.php, copy from local_readonly\classes';
+$string['configfileerror'] = '$CFG->dbtype="mysqliro"; not set in config.php';
