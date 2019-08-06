@@ -89,4 +89,3 @@ class mysqliro_native_moodle_database extends mysqli_native_moodle_database
         return parent::delete_records_select($table, $select, $params);
     }
 }
-$DB = mysqliro_native_moodle_database::init();
