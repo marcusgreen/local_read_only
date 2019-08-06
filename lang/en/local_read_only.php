@@ -15,11 +15,12 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 $string['pluginname'] = 'Read Only';
-$string['alert_message_label'] ='Alert message';
-$string['alert_message_desc'] ='Alert message to go on top of the banner';
+$string['alert_message_label'] = 'Alert message';
+$string['alert_message_desc'] = 'Alert message to go on top of the banner';
 $string['default_alert'] = 'Site is in read-only mode';
-$string['enable_read_only'] ='Enable Read Only Mode';
-$string['enable_read_only_desc'] ='Enable Read Only Mode';
+$string['enable_read_only'] = 'Enable Read Only Mode';
+$string['enable_read_only_desc'] = 'Enable Read Only Mode';
 $string['inreadonlymode'] = 'Site is in read-only mode';
+$string['youareadmin'] = ', however you are admin, so write is still enabled';
 $string['drivernotfound'] = 'Cannot find lib/dml/mysqliro_native_moodle_database.php, copy from local_readonly\classes';
 $string['configfileerror'] = '$CFG->dbtype="mysqliro"; not set in config.php';

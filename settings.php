@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 defined('MOODLE_INTERNAL') || die();
-global $PAGE, $CFG,$USER;
+global $PAGE, $CFG, $USER;
 require_once($CFG->dirroot . '/local/read_only/lib.php');
 
 $do = optional_param('do', "config", PARAM_ALPHA);
@@ -34,9 +34,9 @@ if ($hassiteconfig) {
             ''
         ));
 
-    //Alert Banner Message 
-    $settings->add(new admin_setting_confightmleditor('local_read_only/alert_message',
-    'alert_message','',get_string('default_alert','local_read_only')));
+         // Alert Banner Message.
+         $settings->add(new admin_setting_confightmleditor('local_read_only/alert_message',
+          'alert_message', '', get_string('default_alert', 'local_read_only')));
     }
     $ADMIN->add('localplugins', $settings);
 }
