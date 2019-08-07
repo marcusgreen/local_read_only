@@ -39,7 +39,7 @@ cli_writeln('read_only is currently: ' . $onoff);
 $input = strtolower(cli_input($instruction, false));
 if ($input == 'off') {
     set_config('enable_readonly', false, 'local_read_only');
-} else ($input == 'on') {
+} else if ($input == 'on') {
     set_config('enable_readonly', true, 'local_read_only');
 } else {
     cli_writeln('nothing was changed');
