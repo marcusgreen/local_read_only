@@ -26,13 +26,8 @@ function local_read_only_before_standard_top_of_body_html() {
         if (is_siteadmin()) {
             $msg .= get_string('youareadmin', 'local_read_only');
         }
-
-        if (method_exists($DB, 'get_drivername')) {
+        if (method_exists($DB, 'get_readonly_driver')) {
              \core\notification::add($msg, \core\notification::WARNING);
-        }
-        if ($CFG->dbtype !== 'mysqliro') {
-            $msg = get_string('configfileerror', 'local_read_only');
-            \core\notification::add($msg, \core\notification::ERROR);
         }
     }
 }
