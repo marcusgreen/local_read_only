@@ -1,4 +1,4 @@
-<?php 
+<?php
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -32,26 +32,30 @@ if ($CFG->dbtype === 'mysqli') {
     require_once($driverdir . '/mysqli_native_moodle_recordset.php');
     require_once($driverdir . '/mysqli_native_moodle_database.php');
     require_once($driverdir . '/mysqli_native_moodle_temptables.php');
-    class nativedriver extends mysqli_native_moodle_database{};
+    class nativedriver extends mysqli_native_moodle_database{
+    };
 }
 
 if ($CFG->dbtype === 'pgsql') {
     require_once($driverdir . '/pgsql_native_moodle_recordset.php');
     require_once($driverdir . '/pgsql_native_moodle_database.php');
     require_once($driverdir . '/pgsql_native_moodle_temptables.php');
-    class nativedriver extends pgsql_native_moodle_database{};
+    class nativedriver extends pgsql_native_moodle_database{
+    };
 }
 if ($CFG->dbtype === 'oci') {
     require_once($driverdir . '/oci_native_moodle_recordset.php');
     require_once($driverdir . '/oci_native_moodle_database.php');
     require_once($driverdir . '/oci_native_moodle_temptables.php');
-    class nativedriver extends oci_native_moodle_database{};
+    class nativedriver extends oci_native_moodle_database{
+    };
 }
 if ($CFG->dbtype === 'sqlsrv') {
     require_once($driverdir . '/sqlsrv_native_moodle_recordset.php');
     require_once($driverdir . '/sqlsrv_native_moodle_database.php');
     require_once($driverdir . '/sqlsrv_native_moodle_temptables.php');
-    class nativedriver extends sqlsrv_native_moodle_database{};
+    class nativedriver extends sqlsrv_native_moodle_database{
+    };
 }
 
 class readonlydriver extends nativedriver{
@@ -73,7 +77,7 @@ class readonlydriver extends nativedriver{
     }
     public function get_writable_tables() {
 
-        $writabletables = array(
+        $writabletables = [
             'sessions',
             'logstore_standard_log',
             'user_last_access',
@@ -82,8 +86,12 @@ class readonlydriver extends nativedriver{
             'userbackup_logs',
             'backup_ids_temp',
             'backup_courses',
-            'files'
-        );
+            'files',
+            'user'=>[
+                'columns'=> ['lastip','lastlogin']
+            ]
+  
+        ];
         return $writabletables;
     }
     public function get_readonly_driver() {
@@ -113,6 +121,16 @@ class readonlydriver extends nativedriver{
             return true;
         }
         return parent::update_record_raw($table, $params, $bulk);
+    }
+    public function get_updatable_columns($table,$params){
+        $columns=[
+            'user' =>['lastlogin']
+        ];
+        if(key_exists($table,$columns)){
+            return $columns['user'];
+        } else{
+            return $params;
+        }
     }
     public function delete_records_select($table, $select, array $params = null) {
         if ($this->is_readonly($table)) {
