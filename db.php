@@ -87,11 +87,12 @@ class readonlydriver extends nativedriver{
             'backup_ids_temp',
             'backup_courses',
             'files',
-            'user'=>[
-                'columns'=> ['lastip','lastlogin']
-            ]
-  
+            'user'  
         ];
+        /**
+         *  'user'=>[
+                'columns'=> ['lastip','lastlogin']
+         */
         return $writabletables;
     }
     public function get_readonly_driver() {

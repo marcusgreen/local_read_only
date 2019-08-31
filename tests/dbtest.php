@@ -92,7 +92,21 @@ test_read_only();
 		} else{
 			cli_writeln('$DB->delete_record test failed');
 		}
+
+		 $user = $DB->get_record('user',['username'=>'guest']);
+		 $user->lastname = 'updated';
+		 $DB->update_record('user', $user);
+		 $user = $DB->get_record('user',['username'=>'guest']);
+		 if ($user->lastname =='updated') {
+			cli_writeln('Update writeable table test passed');
+		} else{
+			cli_writeln('Update writeable table test failed');
+		}
+		$user->lastname = '';
+		$DB->update_record('user', $user);
+
 		 set_config('enable_readonly', true, 'local_read_only');
+
 		 $result = $DB->delete_records('block', ['name' => 'testblock']);
 
 	 }
