@@ -27,20 +27,31 @@ define('CLI_SCRIPT', true);
 
 require(__DIR__.'/../../../config.php');
 require_once($CFG->libdir.'/clilib.php');
+define(CLI, true);
 $status = get_config('local_read_only', 'enable_readonly');
-$instruction = 'type on to enable';
-if ($status) {
-    $instruction = 'type off to disable';
+
+$params = cli_get_params([], []);
+
+
+$enable = $params[1][0];
+
+if (($enable !== 'on') &&  ($enable !=='off')) {
+	$instruction = 'type on to enable';
+	if ($status) {
+		$instruction = 'type off to disable';
+	}
+
+	$onoff = ($status) ? 'on' : 'off';
+	cli_writeln('read_only is currently: ' . $onoff);
+	$enable = strtolower(cli_input($instruction, false));
 }
 
-$onoff = ($status) ? "on" : "off";
-cli_writeln('read_only is currently: ' . $onoff);
-
-$input = strtolower(cli_input($instruction, false));
-if ($input == 'off') {
+if ($enable == 'off') {
     set_config('enable_readonly', false, 'local_read_only');
-} else if ($input == 'on') {
+    cli_writeln('read_only is now: off');
+} else if ($enable == 'on') {
     set_config('enable_readonly', true, 'local_read_only');
+    cli_writeln('read_only is now: on');
 } else {
     cli_writeln('nothing was changed');
 }

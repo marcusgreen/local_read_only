@@ -106,7 +106,7 @@ class readonlydriver extends nativedriver{
     public function is_readonly($table) {
         $writabletables = $this->get_writable_tables();
         $enablereadonly = get_config('local_read_only', 'enable_readonly');
-        if (!CLI_SCRIPT && $enablereadonly && !in_array($table, $writabletables) && !is_siteadmin()) {
+        if ((!CLI ) && $enablereadonly && !in_array($table, $writabletables) && !is_siteadmin()) {
             return true;
         }
     }
