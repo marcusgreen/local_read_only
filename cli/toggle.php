@@ -53,5 +53,7 @@ if ($enable == 'off') {
     set_config('enable_readonly', true, 'local_read_only');
     cli_writeln('read_only is now: on');
 } else {
-    cli_writeln('nothing was changed');
+	cli_writeln('nothing was changed');
+	cli_writeln('on or off with the command toggle the database read only state');
+	cli_logo();
 }
