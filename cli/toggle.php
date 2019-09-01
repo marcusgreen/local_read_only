@@ -25,6 +25,8 @@
 
 define('CLI_SCRIPT', true);
 
+
+
 require(__DIR__.'/../../../config.php');
 require_once($CFG->libdir.'/clilib.php');
 define(CLI, true);
@@ -54,6 +56,35 @@ if ($enable == 'off') {
     cli_writeln('read_only is now: on');
 } else {
 	cli_writeln('nothing was changed');
-	cli_writeln('on or off with the command toggle the database read only state');
-	cli_logo();
+	cli_writeln('on or off to toggle the database read only state');
+	ascii_logo();
+}
+
+ function ascii_logo($padding=2, $return=false) {
+
+	$lines = [
+		"                                                   ",
+		"    _____                _    ____        _        ",
+		"   |  __ \              | |  / __ \      | |       ",
+		"   | |__) |___  __ _  __| | | |  | |_ __ | |_   _  ",
+		"   |  _  // _ \/ _` |/ _` | | |  | | '_ \| | | | | ",
+		"   | | \ \  __/ (_| | (_| | | |__| | | | | | |_| | ",
+		"   |_|  \_\___|\__,_|\__,_|  \____/|_| |_|_|\__, | ",
+		"                                             __/ | ",
+		"                                            |___/  ",
+	];
+
+    $logo = '';
+
+    foreach ($lines as $line) {
+        $logo .= str_repeat(' ', $padding);
+        $logo .= $line;
+        $logo .= PHP_EOL;
+    }
+
+    if ($return) {
+        return $logo;
+    } else {
+        cli_write($logo);
+    }
 }
