@@ -37,36 +37,49 @@ require_once($CFG->libdir.'/clilib.php');
 
 test_read_only();
 	 function test_read_only() {
+		 global $DB;
 		set_config('enable_readonly', false, 'local_read_only');
+
+		$dbman = $DB->get_manager();
+		$table = new xmldb_table('test_table');
+
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null, null);
+		$table->add_field('testfield', XMLDB_TYPE_CHAR, '50', null, null, null, null, 'id');
+		$table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
+		if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
 
 		 global $DB;
 		 define(CLI, false);
-		 $block = (object) [
-			'name' => 'testblock',
-			'cron' => 1,
-			'lastcron' => 1,
-			'visible' => 1,
+		 $test_record = (object) [
+			'testfield' => 'testrecord',
+
 		];
 
-		$result = $DB->delete_records('block', ['name' => 'testblock']);
-		$result = $DB->delete_records('block', ['name' => 'updated']);
+		$result = $DB->delete_records('test_table');
 
-	 	$result = $DB->insert_record('block', $block);
+		$result = $DB->get_records('test_table');
+
+
+		 $id = $DB->insert_record('test_table', $test_record);
+		 $result = $DB->get_records('test_table');
+
 		 
 	 	set_config('enable_readonly', true, 'local_read_only');
 
 	 	//is_siteadmin(true);
-	 	$block->id = $result;
-		$block->name = 'updated';
+		$test_record->id = $id;
+		$test_record->testfield = 'update';
 		 
-	 	$result = $DB->update_record('block', $block);
-	 	$updatedblock = $DB->get_records('block', ['name' => 'updated']);
-	 	if (empty($updatedblock)) {
+	 	$DB->update_record('test_table', $test_record);
+	 	$test_result = $DB->get_records('test_table', ['testfield' => 'update']);
+	 	if (empty($test_result)) {
 			cli_writeln('$DB->update_record test passed');
 		 } else{
 			cli_writeln('$DB->update_record test passed');
 		 }
-		$DB->set_field('block', 'name', 'updated',['name' => 'testblock']);
+		$DB->set_field('test_table', 'testfield', 'updated',['testfield' => 'update2']);
 		$newblock3 = $DB->get_records('block', ['name' => 'testblock3']);
 		if (empty($newblock3)) {
 			cli_writeln('$DB->set_field test passed');
@@ -108,5 +121,7 @@ test_read_only();
 		 set_config('enable_readonly', true, 'local_read_only');
 
 		 $result = $DB->delete_records('block', ['name' => 'testblock']);
+		 $dbman->drop_table($table);
+
 
 	 }
