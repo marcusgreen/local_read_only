@@ -38,90 +38,105 @@ require_once($CFG->libdir.'/clilib.php');
 test_read_only();
 	 function test_read_only() {
 		 global $DB;
+		 /** disable read_only */
 		set_config('enable_readonly', false, 'local_read_only');
 
 		$dbman = $DB->get_manager();
 		$table = new xmldb_table('test_table');
-
         $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null, null);
 		$table->add_field('testfield', XMLDB_TYPE_CHAR, '50', null, null, null, null, 'id');
 		$table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
+	
 		if (!$dbman->table_exists($table)) {
             $dbman->create_table($table);
         }
 
-		 global $DB;
 		 define(CLI, false);
-		 $test_record = (object) [
-			'testfield' => 'testrecord',
-
-		];
 
 		$result = $DB->delete_records('test_table');
+		$test_record = (object) [
+			'testfield' => 'testvalue',
+		];
 
-		$result = $DB->get_records('test_table');
-
-
-		 $id = $DB->insert_record('test_table', $test_record);
-		 $result = $DB->get_records('test_table');
-
+		$id = $DB->insert_record('test_table', $test_record);
 		 
-	 	set_config('enable_readonly', true, 'local_read_only');
+		 set_config('enable_readonly', true, 'local_read_only');
+		
+		$DB->execute("DELETE from {test_table}");
+		 $test_result = $DB->get_records('test_table', ['testfield' => 'testvalue']);
+		 if (empty($test_result)) {
+			 cli_writeln('$DB->execute with delete test passed');
+		  } else{
+              cli_writeln('$DB->execute with delete test failed');
+          }
+		 
+		$DB->execute("INSERT INTO {test_table} (test_field)",['updated']);
+		$test_result = $DB->get_records('test_table', ['testfield' => 'updated']);
 
-	 	//is_siteadmin(true);
+		if (empty($test_result)) {
+			cli_writeln('$DB->execute with insert test passed');
+		 } else{
+			cli_writeln('$DB->execute with insert test failed');
+		 }
+	 	 
+		$DB->execute("UPDATE  {test_table}  SET test_field ='updated'");
+		$test_result = $DB->get_records('test_table', ['testfield' => 'updated']);
+		if (empty($test_result)) {
+			cli_writeln('$DB->execute with update test passed');
+		 } else{
+             cli_writeln('$DB->execute with update test failed');
+         }
+
+
 		$test_record->id = $id;
-		$test_record->testfield = 'update';
-		 
+		$test_record->testfield = 'update';		 
 	 	$DB->update_record('test_table', $test_record);
-	 	$test_result = $DB->get_records('test_table', ['testfield' => 'update']);
+		$test_result = $DB->get_records('test_table', ['testfield' => 'update']);
+
 	 	if (empty($test_result)) {
 			cli_writeln('$DB->update_record test passed');
 		 } else{
 			cli_writeln('$DB->update_record test passed');
 		 }
 		$DB->set_field('test_table', 'testfield', 'updated',['testfield' => 'update2']);
-		$newblock3 = $DB->get_records('block', ['name' => 'testblock3']);
-		if (empty($newblock3)) {
+		$test_result = $DB->get_records('test_table', ['testfield' => 'update2']);
+		if (empty($test_result)) {
 			cli_writeln('$DB->set_field test passed');
 		}else{
 			cli_writeln('$DB->set_field test failed');
 
 		}
-		$block->name = 'testblock2';
-		$result = $DB->insert_record('block', $block);
-		$newblock = $DB->get_records('block', ['name' => 'testblock2']);
+		$test_record->test_field = 'testrecord2';
+		$DB->insert_record('test_table', $test_record);
+		$record = $DB->get_records('test_table', ['testfield' => 'testrecord2']);
 		if (empty($newblock)) {
 			cli_writeln('$DB->insert_record test passed');
 		} else{
 			cli_writeln('$DB->insert_record test failed');
 		}
 
-		$block->name = 'testblock';
-		$result = $DB->delete_records('block', (array) $block);
-		$testblock = $DB->get_records('block', ['name' => 'testblock']);
-		/* no delete so should contain record */
-		if (empty($newblock)) {
+		$result = $DB->delete_records('test_table',['id'=>$id]);
+		$result = $DB->get_records('test_table');
+		/* delete should not have worked so should contain record */
+		if (!empty($result)) {
 			cli_writeln('$DB->delete_record test passed');
 		} else{
 			cli_writeln('$DB->delete_record test failed');
 		}
 
-		 $user = $DB->get_record('user',['username'=>'guest']);
-		 $user->lastname = 'updated';
-		 $DB->update_record('user', $user);
-		 $user = $DB->get_record('user',['username'=>'guest']);
-		 if ($user->lastname =='updated') {
+		 $record = $DB->get_record('test_table',['testfield'=>'testvalue']);
+		 $record->test_field = 'updated';
+		 $DB->update_record('test_table', $record);
+		 $record = $DB->get_record('test_table',['testfield'=>'updated']);
+		 if ($record == false) {
 			cli_writeln('Update writeable table test passed');
 		} else{
 			cli_writeln('Update writeable table test failed');
 		}
-		$user->lastname = '';
-		$DB->update_record('user', $user);
 
 		 set_config('enable_readonly', true, 'local_read_only');
 
-		 $result = $DB->delete_records('block', ['name' => 'testblock']);
+		 $result = $DB->delete_records('test_table');
 		 $dbman->drop_table($table);
-
 
 	 }

@@ -139,5 +139,14 @@ class readonlydriver extends nativedriver{
         }
         return parent::delete_records_select($table, $select, $params);
     }
+
+    public function execute($sql, array $params=null){
+        foreach(['INSERT INTO','DELETE FROM','UPDATE'] as $param){
+            if (false !== strpos(strtoupper($sql), $param)) {
+                return true;
+            }
+        }
+        return parent::execute($sql,$params);
+    }
 }
 $DB = readonlydriver::init($CFG->dbtype);
