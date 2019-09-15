@@ -87,11 +87,12 @@ class readonlydriver extends nativedriver{
             'backup_ids_temp',
             'backup_courses',
             'files',
-            'user'=>[
-                'columns'=> ['lastip','lastlogin']
-            ]
-  
+            'user'  
         ];
+        /**
+         *  'user'=>[
+                'columns'=> ['lastip','lastlogin']
+         */
         return $writabletables;
     }
     public function get_readonly_driver() {
@@ -106,7 +107,7 @@ class readonlydriver extends nativedriver{
     public function is_readonly($table) {
         $writabletables = $this->get_writable_tables();
         $enablereadonly = get_config('local_read_only', 'enable_readonly');
-        if (!CLI_SCRIPT && $enablereadonly && !in_array($table, $writabletables) && !is_siteadmin()) {
+        if ((!CLI ) && $enablereadonly && !in_array($table, $writabletables) && !is_siteadmin()) {
             return true;
         }
     }
@@ -137,6 +138,15 @@ class readonlydriver extends nativedriver{
             return true;
         }
         return parent::delete_records_select($table, $select, $params);
+    }
+
+    public function execute($sql, array $params=null){
+        foreach(['INSERT INTO','DELETE FROM','UPDATE'] as $param){
+            if (false !== strpos(strtoupper($sql), $param)) {
+                return true;
+            }
+        }
+        return parent::execute($sql,$params);
     }
 }
 $DB = readonlydriver::init($CFG->dbtype);

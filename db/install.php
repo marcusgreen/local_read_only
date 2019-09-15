@@ -24,8 +24,39 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die;
-
+//defined('MOODLE_INTERNAL') || die;
+define(CLI_SCRIPT, true);
 function xmldb_local_read_only_install() {
+	edit_config();
     return true;
 }
+edit_config();
+
+/** 
+ * Insert require_once link to the readonly code in config.php
+ * just before the call to setup.
+ */
+function edit_config() {
+	global $CFG;
+
+	$file_path = '/../../../config.php';
+	$insert_marker = "require_once(__DIR__ . '/lib/setup.php');";
+	$text = "\ninclude_once(__DIR__.'/local/read_only/db.php');\n\n";
+
+	if(!is_writable(__DIR__.$file_path)){
+		echo 'not writable';
+	}else{
+		echo 'is writeable';
+	}
+	exit();
+	$contents = file_get_contents(__DIR__.$file_path);
+	if (false !== strpos($contents, $text)) {
+		return 'target not found';
+	}
+	$replacement = $text . $insert_marker;
+	$new_contents = str_replace($insert_marker, $replacement, $contents);
+	file_put_contents($file_path, $new_contents);
+}
+
+
+$num_bytes = insert_into_file($file_path, $insert_marker, $text);

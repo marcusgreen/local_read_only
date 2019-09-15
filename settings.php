@@ -33,6 +33,12 @@ if ($hassiteconfig) {
             get_string('enable_read_only_desc', 'local_read_only'),
             ''
         ));
+        $settings->add(new admin_setting_configcheckbox(
+            'local_read_only/show_alert',
+            get_string('alert_show', 'local_read_only'),
+            get_string('alert_show_desc', 'local_read_only'),
+            1
+        ));
 
          // Alert Banner Message.
          $settings->add(new admin_setting_confightmleditor('local_read_only/alert_message',

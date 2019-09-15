@@ -25,22 +25,66 @@
 
 define('CLI_SCRIPT', true);
 
+
+
 require(__DIR__.'/../../../config.php');
 require_once($CFG->libdir.'/clilib.php');
+define(CLI, true);
 $status = get_config('local_read_only', 'enable_readonly');
-$instruction = 'type on to enable';
-if ($status) {
-    $instruction = 'type off to disable';
+
+$params = cli_get_params([], []);
+
+
+$enable = $params[1][0];
+
+if (($enable !== 'on') &&  ($enable !=='off')) {
+	$instruction = 'type on to enable';
+	if ($status) {
+		$instruction = 'type off to disable';
+	}
+
+	$onoff = ($status) ? 'on' : 'off';
+	cli_writeln('read_only is currently: ' . $onoff);
+	$enable = strtolower(cli_input($instruction, false));
 }
 
-$onoff = ($status) ? "on" : "off";
-cli_writeln('read_only is currently: ' . $onoff);
-
-$input = strtolower(cli_input($instruction, false));
-if ($input == 'off') {
+if ($enable == 'off') {
     set_config('enable_readonly', false, 'local_read_only');
-} else if ($input == 'on') {
+    cli_writeln('read_only is now: off');
+} else if ($enable == 'on') {
     set_config('enable_readonly', true, 'local_read_only');
+    cli_writeln('read_only is now: on');
 } else {
-    cli_writeln('nothing was changed');
+	cli_writeln('nothing was changed');
+	cli_writeln('on or off to toggle the database read only state');
+	ascii_logo();
+}
+
+ function ascii_logo($padding=2, $return=false) {
+
+	$lines = [
+		"                                                   ",
+		"    _____                _    ____        _        ",
+		"   |  __ \              | |  / __ \      | |       ",
+		"   | |__) |___  __ _  __| | | |  | |_ __ | |_   _  ",
+		"   |  _  // _ \/ _` |/ _` | | |  | | '_ \| | | | | ",
+		"   | | \ \  __/ (_| | (_| | | |__| | | | | | |_| | ",
+		"   |_|  \_\___|\__,_|\__,_|  \____/|_| |_|_|\__, | ",
+		"                                             __/ | ",
+		"                                            |___/  ",
+	];
+
+    $logo = '';
+
+    foreach ($lines as $line) {
+        $logo .= str_repeat(' ', $padding);
+        $logo .= $line;
+        $logo .= PHP_EOL;
+    }
+
+    if ($return) {
+        return $logo;
+    } else {
+        cli_write($logo);
+    }
 }

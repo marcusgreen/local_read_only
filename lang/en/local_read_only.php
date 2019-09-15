@@ -17,6 +17,8 @@
 $string['pluginname'] = 'Read Only';
 $string['alert_message_label'] = 'Alert message';
 $string['alert_message_desc'] = 'Alert message to go on top of the banner';
+$string['alert_show'] = 'Show  message';
+$string['alert_show_desc'] = 'Show alert message';
 $string['default_alert'] = 'Site is in read-only mode';
 $string['enable_read_only'] = 'Enable Read Only Mode';
 $string['enable_read_only_desc'] = 'Enable Read Only Mode';
