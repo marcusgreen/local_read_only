@@ -28,6 +28,6 @@ defined('MOODLE_INTERNAL') || die;
 
 function xmldb_local_read_only_uninstall() {
     require_once(dirname(dirname(__FILE__)) . '/lib.php');
-    @remove_mysqli_db_class_files();
+   // @remove_mysqli_db_class_files();
     return true;
 }

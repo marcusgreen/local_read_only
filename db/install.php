@@ -43,13 +43,15 @@ function edit_config() {
 	$insert_marker = "require_once(__DIR__ . '/lib/setup.php');";
 	$text = "\ninclude_once(__DIR__.'/local/read_only/db.php');\n\n";
 
-	if(!is_writable(__DIR__.$file_path)){
-		echo 'not writable';
-	}else{
-		echo 'is writeable';
-	}
-	exit();
 	$contents = file_get_contents(__DIR__.$file_path);
+
+//	if(!is_writable(__DIR__.$file_path)){
+	// if(1 == 1){
+	// 	echo '<textarea rows="20" cols="70">'.$contents .'</textarea>';
+	// }else{
+	// 	echo 'is writeable';
+	// }
+	// exit();
 	if (false !== strpos($contents, $text)) {
 		return 'target not found';
 	}
