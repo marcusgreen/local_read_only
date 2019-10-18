@@ -25,17 +25,14 @@
 
 define('CLI_SCRIPT', true);
 
-
-
 require(__DIR__.'/../../../config.php');
 require_once($CFG->libdir.'/clilib.php');
-define(CLI, true);
 $status = get_config('local_read_only', 'enable_readonly');
 
 $params = cli_get_params([], []);
 
 
-$enable = $params[1][0];
+$enable = $params[1][0] ?? '';
 
 if (($enable !== 'on') &&  ($enable !=='off')) {
 	$instruction = 'type on to enable';
