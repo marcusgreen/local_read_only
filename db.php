@@ -87,12 +87,9 @@ class readonlydriver extends nativedriver{
             'backup_ids_temp',
             'backup_courses',
             'files',
-            'user'  
+            'user'
         ];
-        /**
-         *  'user'=>[
-                'columns'=> ['lastip','lastlogin']
-         */
+
         return $writabletables;
     }
     public function get_readonly_driver() {
@@ -123,13 +120,13 @@ class readonlydriver extends nativedriver{
         }
         return parent::update_record_raw($table, $params, $bulk);
     }
-    public function get_updatable_columns($table,$params){
-        $columns=[
-            'user' =>['lastlogin']
+    public function get_updatable_columns($table, $params) {
+        $columns = [
+            'user' => ['lastlogin']
         ];
-        if(key_exists($table,$columns)){
+        if (key_exists($table, $columns)) {
             return $columns['user'];
-        } else{
+        } else {
             return $params;
         }
     }
@@ -140,13 +137,13 @@ class readonlydriver extends nativedriver{
         return parent::delete_records_select($table, $select, $params);
     }
 
-    public function execute($sql, array $params=null){
-        foreach(['INSERT INTO','DELETE FROM','UPDATE'] as $param){
+    public function execute($sql, array $params = null) {
+        foreach (['INSERT INTO', 'DELETE FROM', 'UPDATE'] as $param) {
             if (false !== strpos(strtoupper($sql), $param)) {
                 return true;
             }
         }
-        return parent::execute($sql,$params);
+        return parent::execute($sql, $params);
     }
 }
 $DB = readonlydriver::init($CFG->dbtype);

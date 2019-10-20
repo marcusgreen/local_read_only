@@ -31,7 +31,7 @@ if ($hassiteconfig) {
             'local_read_only/enable_readonly',
             get_string('enable_read_only', 'local_read_only'),
             get_string('enable_read_only_desc', 'local_read_only'),
-            ''
+            '1'
         ));
         $settings->add(new admin_setting_configcheckbox(
             'local_read_only/show_alert',
@@ -43,6 +43,11 @@ if ($hassiteconfig) {
          // Alert Banner Message.
          $settings->add(new admin_setting_confightmleditor('local_read_only/alert_message',
           'alert_message', '', get_string('default_alert', 'local_read_only')));
+
+         $settings->add(new admin_setting_confightmleditor('local_read_only/alert_message',
+         'alert_message', '', get_string('default_alert', 'local_read_only')));
+         $settings->add(new admin_setting_heading('configsetup',
+             get_string('configsetup_help','local_read_only'),''));
     }
     $ADMIN->add('localplugins', $settings);
 }
