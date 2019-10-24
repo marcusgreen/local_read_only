@@ -25,4 +25,4 @@ $string['enable_read_only_desc'] = 'Enable Read Only Mode';
 $string['inreadonlymode'] = 'Site is in read-only mode';
 $string['youareadmin'] = ', however you are admin, so write is still enabled';
 $string['configfileerror'] = 'missing include for db.php in config.php';
-$string['configsetup_help'] = 'Config.php must contain include_once(__DIR__.\'/local/read_only/db.php\');"';
+$string['configsetup_help'] = 'Config.php must contain include_once(__DIR__.\'/local/read_only/db.php\');';
