@@ -18,8 +18,7 @@ defined('MOODLE_INTERNAL') || die();
 /**
  * Class local_read_only
  */
-function local_read_only_before_standard_top_of_body_html()
-{
+function local_read_only_before_standard_top_of_body_html() {
     global $DB;
     if (get_config('local_read_only', 'enable_readonly') === '1') {
         $msg = get_config('local_read_only', 'alert_message');
@@ -27,12 +26,10 @@ function local_read_only_before_standard_top_of_body_html()
             $msg = get_string('configfileerror', 'local_read_only');
             \core\notification::add($msg, \core\notification::WARNING);
         } else if (is_siteadmin()) {
-            if (is_siteadmin()) {
                 $msg .= get_string('youareadmin', 'local_read_only');
                 \core\notification::add($msg, \core\notification::WARNING);
             } else {
                 \core\notification::add($msg, \core\notification::WARNING);
             }
         }
-    }
 }

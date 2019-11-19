@@ -93,7 +93,7 @@ class readonlydriver extends nativedriver{
         return $writabletables;
     }
     public function get_readonly_driver() {
-        return 'mysqliro';
+        return 'read_only';
     }
     public function set_field($table, $newfield, $newvalue, array $conditions=null) {
         if ($this->is_readonly($table)) {
