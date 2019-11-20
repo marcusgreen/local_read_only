@@ -16,6 +16,6 @@ include_once(__DIR__.'/local/read_only/db.php');
 
 3) Go to yourmoodle.com/admin and go through the standard plugin install and accept defaults
 
-Credit:
+Credits:
 
 Marcus Green & Hittesh Ahuja
