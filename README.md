@@ -1,3 +1,6 @@
+### Description:
+
+A Moodle local plugin that acts as a read-only database driver where database updates are silently discarded. Some essential tables are still written to to allow things like login, file downloads and new log records. (See list later on). User who have the site_admin role are exempt and updates will work for them as if the standard database driver was enabled.
 ### Installation:
 
 1) git clone https://github.com/marcusgreen/local_read_only /pathtomoodle/local/read_only/
