@@ -42,12 +42,12 @@ if ($hassiteconfig) {
 
          // Alert Banner Message.
          $settings->add(new admin_setting_confightmleditor('local_read_only/alert_message',
-          'alert_message', '', get_string('default_alert', 'local_read_only')));
+            get_string('alert_message_label', 'local_read_only'),
+            get_string('alert_message_description', 'local_read_only'),
+            get_string('default_message', 'local_read_only')));
 
-         $settings->add(new admin_setting_confightmleditor('local_read_only/alert_message',
-         'alert_message', '', get_string('default_alert', 'local_read_only')));
          $settings->add(new admin_setting_heading('configsetup',
-             get_string('configsetup_help','local_read_only'),''));
+             get_string('configsetup_help', 'local_read_only'), ''));
     }
     $ADMIN->add('localplugins', $settings);
 }
