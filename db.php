@@ -80,12 +80,12 @@ class readonlydriver extends nativedriver{
         $writabletables = [
             'sessions',
             'logstore_standard_log',
-            'user_last_access',
+            'user_lastaccess',
             'backup_controllers',
             'backup_logs',
             'userbackup_logs',
-            'backup_ids_temp',
             'backup_courses',
+            'backup_ids_temp',
             'files',
             'user'
         ];
@@ -137,8 +137,8 @@ class readonlydriver extends nativedriver{
         return parent::delete_records_select($table, $select, $params);
     }
 
-    public function execute($sql, array $params = null) {
-        foreach (['INSERT INTO', 'DELETE FROM', 'UPDATE'] as $param) {
+    public function read_only_execute($sql, array $params = null) {
+        foreach (['INSERT INTO','DELETE FROM', 'UPDATE'] as $param) {
             if (false !== strpos(strtoupper($sql), $param)) {
                 return true;
             }
