@@ -23,7 +23,7 @@ function local_read_only_before_standard_top_of_body_html() {
     if (get_config('local_read_only', 'enable_readonly') === '1') {
         $msg = get_config('local_read_only', 'alert_message');
         if (!method_exists($DB, 'get_readonly_driver')) {
-            $msg = get_string('configfileerror', 'local_read_only');
+            $msg = get_string('configfileerror','local_read_only');
             \core\notification::add($msg, \core\notification::WARNING);
         } else if (is_siteadmin()) {
                 $msg .= get_string('youareadmin', 'local_read_only');

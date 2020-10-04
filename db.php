@@ -75,7 +75,12 @@ class readonlydriver extends nativedriver{
         $DB->connect($CFG->dbhost, $CFG->dbuser, $CFG->dbpass, $CFG->dbname, $CFG->prefix);
         return $DB;
     }
-    public function get_writable_tables() {
+    /**
+     * return an array of tables that can be written ot
+     *
+     * @return array
+     */
+    public function get_writable_tables()  {
 
         $writabletables = [
             'sessions',
@@ -120,6 +125,15 @@ class readonlydriver extends nativedriver{
         }
         return parent::update_record_raw($table, $params, $bulk);
     }
+    /**
+     * What columns are allowed to be used
+     * TODO make work and implement call
+     * more of a place holder than a working function
+     *
+     * @param string $table
+     * @param array $params
+     * @return array
+     */
     public function get_updatable_columns($table, $params) {
         $columns = [
             'user' => ['lastlogin']
@@ -137,13 +151,39 @@ class readonlydriver extends nativedriver{
         return parent::delete_records_select($table, $select, $params);
     }
 
-    public function read_only_execute($sql, array $params = null) {
+    public function execute($sql, array $params = null) {
+      if(!is_siteadmin()) {
         foreach (['INSERT INTO','DELETE FROM', 'UPDATE'] as $param) {
             if (false !== strpos(strtoupper($sql), $param)) {
-                return true;
+              if(! $this->permitted_execution($sql)){
+                  return true;
+              }
             }
         }
+      }
         return parent::execute($sql, $params);
     }
+
+  /**
+   * Check if an execute statement contains any of an arra
+   * of permitted string. If it does then return true
+   *
+   * @param string $sql
+   * @return bool
+   */
+    public function permitted_execution($sql){
+        $permitted =[
+          'INSERT INTO {backup_ids_temp}'
+        ];
+        foreach($permitted as $statement){
+          if(false !== strpos(strtoupper($sql), strtoupper($statement))){
+            return true;
+          }
+        }
+        return false;
+      }
+
 }
+
+
 $DB = readonlydriver::init($CFG->dbtype);
