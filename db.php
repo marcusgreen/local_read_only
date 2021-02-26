@@ -92,6 +92,7 @@ class readonlydriver extends nativedriver{
             'backup_courses',
             'backup_ids_temp',
             'files',
+            'tool_policy_acceptances',
             'user'
         ];
 
