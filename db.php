@@ -36,6 +36,12 @@ if ($CFG->dbtype === 'mysqli') {
     };
 }
 
+if ($CFG->dbtype === 'mariadb') {
+    require_once($driverdir . '/mariadb_native_moodle_database.php');
+    class nativedriver extends mariadb_native_moodle_database{
+    };
+}
+
 if ($CFG->dbtype === 'pgsql') {
     require_once($driverdir . '/pgsql_native_moodle_recordset.php');
     require_once($driverdir . '/pgsql_native_moodle_database.php');
